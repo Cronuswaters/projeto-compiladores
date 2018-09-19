@@ -8,3 +8,6 @@ extern int sp;
 
 void execute_op(int op);
 
+/* Untested code
+#define NAMESIZE 32
+*/

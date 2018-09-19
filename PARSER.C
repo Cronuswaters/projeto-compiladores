@@ -1,4 +1,5 @@
 /**@<parser.c>**/
+// TODO: Implement checks against stack overflow
 #include <stdlib.h>
 #include <stdio.h>
 #include <tokens.h>
@@ -7,15 +8,26 @@
 #include <errcodes.h>
 #include <vm.h>
 #include <parser.h>
+// Lots of untested code below
+// char name[MAXIDLEN +1];
 
 void fact(void){
 	switch (lookahead) {
 		case ID:
 		    /** ID [ = expr ] **/
 		    match(ID);
+		    /*
+		    strcpy(name, lexeme);
+		    */
 		    if(lookahead == '='){
 		        match('='); expr();
-		    } else ;
+		        /* Untested code
+		        add_symbol(name);
+		        */
+		    }/* Untested code, remove else following this block when testing
+		    else fetch_symbol(name);
+		    */
+		     else ;
 		    break;
 		case UINT:
         case FLTP:
