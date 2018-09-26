@@ -4,4 +4,4 @@
 
 int             gettoken(FILE *tape);
 
-
+extern char lexeme[];

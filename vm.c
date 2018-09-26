@@ -1,4 +1,6 @@
 /**@<vm.c>**/
+#include <stdio.h>
+#include <stdlib.h>
 #include <errcodes.h>
 #include <string.h>
 #include <vm.h>
@@ -6,7 +8,6 @@
 double acc = 0;
 double stack[MAXSTACKSIZE];
 int sp = -1;
-
 void execute_op(int op){
 	// salvar o estado do acumulador na pilha
 	// ... or not
@@ -57,12 +58,12 @@ void add_symbol(char *name){
             break;
         }
     }
-    if(found) symtable[i].value = acc;
+    if(found) symbols[i].value = acc;
     else{
         if(cur_symbol < MAXSTACKSIZE){
             cur_symbol++;
-            strcpy(symtable[cur_symbol].symbol_name, name);
-            symtable[cur_symbol].value = acc;
+            strcpy(symbols[cur_symbol].symbol_name, name);
+            symbols[cur_symbol].value = acc;
         }
         else{
             fprintf(stderr, "ERROR: Symbol table overflow");

@@ -6,7 +6,7 @@
 
 CFLAGS=-g -I.
 
-mybc: lexer.o main.o parser.o
+mybc: lexer.o main.o parser.o vm.o lextoparser.o
 	$(CC) $^ -o $@
 
 clean:
