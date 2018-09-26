@@ -10,7 +10,7 @@
 #include <parser.h>
 
 // Lots of untested code below
-// char name[MAXIDLEN +1];
+char name[MAXIDLEN +1];
 
 void mybc(void){
     /**/lookahead = gettoken(source);/**/
@@ -27,13 +27,11 @@ void fact(void){
 		    */
 		    if(lookahead == '='){
 		        match('='); expr();
-		        /* Untested code
+
 		        add_symbol(name);
-		        */
-		    }/* Untested code, remove else following this block when testing
+		        
+		    }
 		    else fetch_symbol(name);
-		    */
-		     else ;
 		    break;
 		case UINT:
         case FLTP:
