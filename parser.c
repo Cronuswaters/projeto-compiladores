@@ -21,15 +21,13 @@ void fact(void){
 	switch (lookahead) {
 		case ID:
 		    /** ID [ = expr ] **/
-		    match(ID);
-		    /*
 		    strcpy(name, lexeme);
-		    */
+		    match(ID);
 		    if(lookahead == '='){
 		        match('='); expr();
 
 		        add_symbol(name);
-		        
+
 		    }
 		    else fetch_symbol(name);
 		    break;
@@ -42,7 +40,6 @@ void fact(void){
 		    match('('); expr(); match(')');
 		}
 }
-int		op_times, op_plus;
 
 
 /* Non-working functions
@@ -77,6 +74,7 @@ void times(){
 void
 expr(void)
 {
+    int		op_times=0, op_plus=0;
 	int				isneg = 0;
     int             oplus = 0;
     int             otimes = 0;

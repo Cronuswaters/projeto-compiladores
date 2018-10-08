@@ -53,7 +53,7 @@ void add_symbol(char *name){
     int i;
     int found = 0;
     for(i = 0; i < cur_symbol+1; i++){
-        if(strcmp(name, symbols[i].symbol_name)){
+        if(!strcmp(name, symbols[i].symbol_name)){
             found = 1;
             break;
         }
@@ -85,7 +85,7 @@ void fetch_symbol(char *name){
     int i;
     int found = 0;
     for(i = 0; i < cur_symbol+1; i++){
-        if(strcmp(name, symbols[i].symbol_name)){
+        if(!strcmp(name, symbols[i].symbol_name)){
             found = 1;
             break;
         }

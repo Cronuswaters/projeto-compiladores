@@ -11,8 +11,8 @@ FILE           *source,
 int
 main(int argc, char *argv[])
 {
-	
-	source = fopen(argv[1], "r");
+
+	source = fopen("test.mybc", "r");
     object = stdout;
 
 /*	stack = (float *)malloc(sizeof(float) + (MAXIDLEN + 1));
@@ -22,7 +22,7 @@ main(int argc, char *argv[])
 //    lookahead = gettoken(source);
 
     mybc();
-    
+
     printf("%f\n",acc);
 
     exit(0);

@@ -96,7 +96,7 @@ isNUM(FILE *tape)
       else{
         ungetc(lexeme[i],tape);
       }
-  
+
     if ((lexeme[i] = getc(tape)) == '.') {
 		i++;
         if (token == UINT) {
@@ -140,6 +140,6 @@ gettoken(FILE *tape)
     if (token = isNUM(tape))
         return token;
 
-    
+
     return token = getc(tape);
 }
