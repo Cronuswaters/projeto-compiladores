@@ -51,7 +51,6 @@ chk_EE(FILE *tape, int i0)
         } else {
             ungetc(lexeme[i], tape);
 			lexeme[i] = 0;
-            i--;
         }
 
         /** abstracts [0-9]+ **/
@@ -89,9 +88,8 @@ isNUM(FILE *tape)
         if (lexeme[i] == '0') {
             ;
         } else {
-            while (isdigit(lexeme[i] = getc(tape))) i++;
+            while (isdigit(lexeme[++i] = getc(tape)));
             ungetc(lexeme[i], tape);
-	    i--;
         }
 
     }  /** Pequena alteração **/
@@ -100,6 +98,7 @@ isNUM(FILE *tape)
       }
   
     if ((lexeme[i] = getc(tape)) == '.') {
+		i++;
         if (token == UINT) {
             token = FLTP;
 
@@ -113,19 +112,21 @@ isNUM(FILE *tape)
                 return token;
             }
         }
-        while (isdigit(lexeme[i] = getc(tape)));
+        while (isdigit(lexeme[i] = getc(tape))) i++;
         ungetc(lexeme[i], tape);
-    }
+		lexeme[i] = 0;
+    } else{
+		ungetc(lexeme[i], tape);
+		lexeme[i] = 0;
+	}
     if (token == 0) {
         /** this is not a number **/
-        ungetc(lexeme[i], tape);
         return 0;
     }
 
     /** at this point we got a number, either UINT or FLTP **/
     /** check scientific notation: **/
     i = chk_EE(tape, i);
-
     return token;
 }
 

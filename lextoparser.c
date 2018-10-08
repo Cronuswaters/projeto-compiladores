@@ -12,7 +12,7 @@ void match(int expected){
 	if(lookahead == expected){
 		lookahead = gettoken(source);
 	} else{
-		fprintf(stder, "token mismatch. Exiting...");
+		fprintf(stderr, "token mismatch. Exiting...");
 		exit(ERR_TOKEN_MISMATCH);
 	}
 }
