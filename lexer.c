@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <ctype.h>
 #include <tokens.h>
 #include <lexer.h>
@@ -23,13 +22,14 @@ int isQUIT(FILE *tape){
     int breakloop = 0;
     while(breakloop == 0){
         lexeme[i] = getc(tape);
-        if(lexeme[i] == ' ' || lexeme[i] == '\n' || lexeme[i] == ';' || lexeme[i] == 0){
+        if(lexeme[i] == ' ' || lexeme[i] == '\n' || lexeme[i] == ';' || lexeme[i] == 0
+            || lexeme[i] == EOF){
             breakloop = 1;
         }else i++;
     }
     ungetc(lexeme[i], tape);
     lexeme[i] = 0;
-    strcpy(lexeme, strupr(lexeme));
+    for(i = 0; i < strlen(lexeme); i++) lexeme[i] = toupper(lexeme[i]);
     if(!strcmp(lexeme, "EXIT")) token = QUIT;
     else if(!strcmp(lexeme, "QUIT")) token = QUIT;
     else if(!strcmp(lexeme, "BYE")) token = QUIT;
