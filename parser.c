@@ -1,7 +1,7 @@
 /**@<parser.c>**/
-// TODO: Implement checks against stack overflow
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <tokens.h>
 #include <lexer.h>
 #include <lextoparser.h>
@@ -16,7 +16,6 @@ char name[MAXIDLEN +1];
 
 void mybc(void){
     /**/lookahead = gettoken(source);/**/
-	//expr();
 	mybc_start:
     cmd_start:
     if(is_FIRST_expr()){
@@ -61,18 +60,12 @@ expr(void)
     int             oplus = 0;
     int             otimes = 0;
 
-    /*int             oplus = lookahead;
-    int             otimes = lookahead;*/
-
     /** abstracts ['+''-'] **/
+    oplus = lookahead;
     if (oplus == '+' || oplus == '-') {
     		isneg = (oplus == '-'); /* flag 1 up */
             match(oplus);
-            //if(oplus == '-') op_negate = 1;
-            //printf("oper %c",oplus);
     }
-
-
 
 T_begin:
 
@@ -97,33 +90,29 @@ F_begin:
 		op_times = 0;
 	}
 
-    /*acc_add();
-    if(op_negate) negate();
-    if(op_times) times();*/
-
     oplus  = lookahead;
     otimes = lookahead;
 
 
     if (otimes == '*' || otimes == '/') { // This raises flag 2
-    	/* untested code
+        /** Check for stack overflow **/
+        if(sp >= MAXSTACKSIZE){
+            fprintf(stderr, "ERROR: Stack Overflow\n");
+            exit(ERR_STACK_OVERFLOW);
+        }
     	stack[++sp] = acc;
-    	*/
-    	++sp;
-    	stack[sp] = acc;
         match(otimes);
        	op_times = otimes;
         goto F_begin;
     }
 
-    //if(op_plus) plus();
-
     else if (oplus == '+' || oplus == '-') { // This raises flag 3
-    	/* untested code
+        /** Check for stack overflow **/
+        if(sp >= MAXSTACKSIZE){
+            fprintf(stderr, "ERROR: Stack Overflow\n");
+            exit(ERR_STACK_OVERFLOW);
+        }
     	stack[++sp] = acc;
-    	*/
-    	++sp;
-    	stack[sp] = acc;
         match(oplus);
         op_plus = oplus;
         goto T_begin;
@@ -132,15 +121,21 @@ F_begin:
 
 }
 
+/**
+    FIRST(expr) -> num | id | (expr)
+**/
 int is_FIRST_expr(){
     return ((lookahead == UINT) || (lookahead == FLTP) || (lookahead == ID)
-            || (lookahead == '('));
+            || (lookahead == '(') || (lookahead == '-') || (lookahead == '+'));
 }
 
 int cmd_quit(){
 	return lookahead == QUIT;
 }
 
+/**
+    cmdsep -> ; | '\n'
+**/
 int cmdsep(){
     if((lookahead == ';') || (lookahead == '\n')){
         match(lookahead);

@@ -16,7 +16,10 @@ skipspaces(FILE *tape)
     ungetc(head, tape);
 }
 
-int isQUIT(FILE *tape){
+/**
+    cmdquit -> QUIT | EXIT | BYE | LOGOUT
+**/
+int isKeyWord(FILE *tape){
     int i = 0;
     int token = 0;
     int breakloop = 0;
@@ -41,6 +44,9 @@ int isQUIT(FILE *tape){
     return token;
 }
 
+/**
+    ID = [a-zA-Z][a-zA-Z0-9]*
+**/
 int isID(FILE *tape)
 {
     int i = 0;
@@ -160,7 +166,7 @@ gettoken(FILE *tape)
 {
     int             token;
     skipspaces(tape);
-    if(token = isQUIT(tape))
+    if(token = isKeyWord(tape))
         return token;
     if (token = isID(tape))
         return token;

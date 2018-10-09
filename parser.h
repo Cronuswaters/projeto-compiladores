@@ -8,8 +8,7 @@ extern char		lexeme[];
 void		mybc(void);
 void		fact(void);
 void		expr(void);
-/*
-float		acc;
-float	       *stack;
-int		stack_top;
-*/
+
+int         is_FIRST_expr(void);
+int         cmdsep(void);
+int         cmd_quit(void);

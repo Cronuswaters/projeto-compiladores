@@ -9,8 +9,6 @@ double acc = 0;
 double stack[MAXSTACKSIZE];
 int sp = -1;
 void execute_op(int op){
-	// salvar o estado do acumulador na pilha
-	// ... or not
 	switch(op){
 		case '+':
 			acc = stack[sp] + acc;
@@ -22,10 +20,13 @@ void execute_op(int op){
 			acc = stack[sp] * acc;
 			break;
 		case '/':
-			acc = stack[sp] / acc;
+		    /** Checagem de divisão por zero **/
+			if(acc != 0) acc = stack[sp] / acc;
+			else fprintf(stderr, "ERROR %d: Division by zero\n",ERR_DIVIDE_BY_ZERO);
 			break;
 		default:
-			fprintf(stderr, "Unknown operation");
+		    /** Operação desconhecida **/
+			fprintf(stderr, "Unknown operation\n");
 			exit(ERR_UNKNOWN_OP);
 	}
 	sp--;
@@ -66,7 +67,7 @@ void add_symbol(char *name){
             symbols[cur_symbol].value = acc;
         }
         else{
-            fprintf(stderr, "ERROR: Symbol table overflow");
+            fprintf(stderr, "ERROR: Symbol table overflow\n");
             exit(ERR_SYMTABLE_OVERFLOW);
         }
     }
@@ -94,7 +95,7 @@ void fetch_symbol(char *name){
         stack[++sp] = acc;
         acc = symbols[i].value;
     } else{
-        fprintf(stderr, "ERROR: Undefined variable %s", name);
+        fprintf(stderr, "ERROR: Undefined variable %s\n", name);
         exit(ERR_VAR_UNDEFINED);
     }
 }
