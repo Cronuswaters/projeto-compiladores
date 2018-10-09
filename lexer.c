@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <ctype.h>
 #include <tokens.h>
 #include <lexer.h>
@@ -14,6 +15,30 @@ skipspaces(FILE *tape)
     int  head;
     while ( (head = getc(tape)) == ' ');
     ungetc(head, tape);
+}
+
+int isQUIT(FILE *tape){
+    int i = 0;
+    int token = 0;
+    int breakloop = 0;
+    while(breakloop == 0){
+        lexeme[i] = getc(tape);
+        if(lexeme[i] == ' ' || lexeme[i] == '\n' || lexeme[i] == ';' || lexeme[i] == 0){
+            breakloop = 1;
+        }else i++;
+    }
+    ungetc(lexeme[i], tape);
+    lexeme[i] = 0;
+    strcpy(lexeme, strupr(lexeme));
+    if(!strcmp(lexeme, "EXIT")) token = QUIT;
+    else if(!strcmp(lexeme, "QUIT")) token = QUIT;
+    else if(!strcmp(lexeme, "BYE")) token = QUIT;
+    else if(!strcmp(lexeme, "LOGOUT")) token = QUIT;
+    else{
+        i--;
+        for(; i >= 0; i--) ungetc(lexeme[i], tape);
+    }
+    return token;
 }
 
 int isID(FILE *tape)
@@ -135,6 +160,8 @@ gettoken(FILE *tape)
 {
     int             token;
     skipspaces(tape);
+    if(token = isQUIT(tape))
+        return token;
     if (token = isID(tape))
         return token;
     if (token = isNUM(tape))

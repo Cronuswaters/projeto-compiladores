@@ -1,7 +1,8 @@
 
 //#define NUM 1024
 enum{
-	ID = 1024,
+    QUIT = 1023,
+	ID,
 	UINT,
 	FLTP,
 };

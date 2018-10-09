@@ -1,8 +1,8 @@
 /**@<vm.c>**/
 #include <stdio.h>
 #include <stdlib.h>
-#include <errcodes.h>
 #include <string.h>
+#include <errcodes.h>
 #include <vm.h>
 
 double acc = 0;

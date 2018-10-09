@@ -9,12 +9,23 @@
 #include <vm.h>
 #include <parser.h>
 
-// Lots of untested code below
+#define TRUE 1
+#define FALSE 0
+
 char name[MAXIDLEN +1];
 
 void mybc(void){
     /**/lookahead = gettoken(source);/**/
-	expr();
+	//expr();
+	mybc_start:
+    cmd_start:
+    if(is_FIRST_expr()){
+        acc = 1;
+        expr();
+        printf("%lg\n",acc);
+    }
+    if(cmdsep()) goto cmd_start;
+    if(!cmd_quit()) goto mybc_start;
 }
 
 void fact(void){
@@ -37,44 +48,15 @@ void fact(void){
             match(lookahead);
 		    break;
 		default:
+		    /** ( expr ) **/
 		    match('('); expr(); match(')');
 		}
 }
 
-
-/* Non-working functions
-void acc_add(){
-	if(acc != 0){
-		stack[stack_top] = acc;
-		stack_top++;
-	}
-	acc = (float)atof(lexeme);
-}
-
-void negate(){
-	acc *= -1;
-	op_negate = 0;
-}
-
-void times(){
-	if(op_times == '*') acc = stack[stack_top] * acc;
-	else acc = stack[stack_top] / acc;
-	stack_top--;
-	op_times = 0;
-}
-*/
-
-/*void plus(){
-	if(op_plus == '+') acc = stack[stack_top] + acc;
-	else acc = stack[stack_top] - acc;
-	stack_top--;
-	op_plus = 0;
-}*/
-
 void
 expr(void)
 {
-    int		op_times=0, op_plus=0;
+    int		op_times = 0, op_plus = 0;
 	int				isneg = 0;
     int             oplus = 0;
     int             otimes = 0;
@@ -148,4 +130,20 @@ F_begin:
     }
 
 
+}
+
+int is_FIRST_expr(){
+    return ((lookahead == UINT) || (lookahead == FLTP) || (lookahead == ID)
+            || (lookahead == '('));
+}
+
+int cmd_quit(){
+	return lookahead == QUIT;
+}
+
+int cmdsep(){
+    if((lookahead == ';') || (lookahead == '\n')){
+        match(lookahead);
+        return TRUE;
+    } else return FALSE;
 }
