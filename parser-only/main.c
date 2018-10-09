@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <lexer.h>
 #include <parser.h>
-#include <vm.h>
 
 FILE           *source,
                *object;

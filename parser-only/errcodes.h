@@ -1,0 +1,10 @@
+/**@<errcodes.h>**/
+#pragma once
+enum{
+    ERR_STACK_OVERFLOW = -7,
+    ERR_DIVIDE_BY_ZERO,
+    ERR_VAR_UNDEFINED,
+    ERR_SYMTABLE_OVERFLOW,
+	ERR_UNKNOWN_OP,
+	ERR_TOKEN_MISMATCH,
+};
